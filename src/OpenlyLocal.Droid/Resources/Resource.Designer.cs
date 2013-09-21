@@ -26,10 +26,30 @@ namespace OpenlyLocal.Droid
 		
 		public static void UpdateIdValues()
 		{
+			Cirrious.MvvmCross.Plugins.Network.Droid.Resource.String.ApplicationName = OpenlyLocal.Droid.Resource.String.ApplicationName;
+			Cirrious.MvvmCross.Plugins.Network.Droid.Resource.String.Hello = OpenlyLocal.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
 		{
+			
+			// aapt resource value: 0x7f010000
+			public const int MvxBind = 2130771968;
+			
+			// aapt resource value: 0x7f010004
+			public const int MvxDropDownItemTemplate = 2130771972;
+			
+			// aapt resource value: 0x7f010003
+			public const int MvxItemTemplate = 2130771971;
+			
+			// aapt resource value: 0x7f010001
+			public const int MvxLang = 2130771969;
+			
+			// aapt resource value: 0x7f010005
+			public const int MvxSource = 2130771973;
+			
+			// aapt resource value: 0x7f010002
+			public const int MvxTemplate = 2130771970;
 			
 			static Attribute()
 			{
@@ -50,6 +70,9 @@ namespace OpenlyLocal.Droid
 			// aapt resource value: 0x7f020001
 			public const int monoandroidsplash = 2130837505;
 			
+			// aapt resource value: 0x7f020002
+			public const int splash = 2130837506;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -60,14 +83,61 @@ namespace OpenlyLocal.Droid
 			}
 		}
 		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7f050000
+			public const int MvxBindingTagUnique = 2131034112;
+			
+			// aapt resource value: 0x7f050001
+			public const int textView1 = 2131034113;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
+			{
+			}
+		}
+		
+		public partial class Layout
+		{
+			
+			// aapt resource value: 0x7f030000
+			public const int AboutView = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int BrowseView = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int HomeView = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int LandingView = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int SplashScreen = 2130903044;
+			
+			static Layout()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Layout()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f030001
-			public const int ApplicationName = 2130903041;
+			// aapt resource value: 0x7f040001
+			public const int ApplicationName = 2130968577;
 			
-			// aapt resource value: 0x7f030000
-			public const int Hello = 2130903040;
+			// aapt resource value: 0x7f040000
+			public const int Hello = 2130968576;
 			
 			static String()
 			{
@@ -82,8 +152,11 @@ namespace OpenlyLocal.Droid
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f040000
-			public const int Mono_Android_Theme_Splash = 2130968576;
+			// aapt resource value: 0x7f060001
+			public const int Mono_Android_Theme_Splash = 2131099649;
+			
+			// aapt resource value: 0x7f060000
+			public const int Theme_Splash = 2131099648;
 			
 			static Style()
 			{
@@ -91,6 +164,51 @@ namespace OpenlyLocal.Droid
 			}
 			
 			private Style()
+			{
+			}
+		}
+		
+		public partial class Styleable
+		{
+			
+			public static int[] MvxBinding = new int[] {
+					2130771968,
+					2130771969};
+			
+			// aapt resource value: 0
+			public const int MvxBinding_MvxBind = 0;
+			
+			// aapt resource value: 1
+			public const int MvxBinding_MvxLang = 1;
+			
+			public static int[] MvxControl = new int[] {
+					2130771970};
+			
+			// aapt resource value: 0
+			public const int MvxControl_MvxTemplate = 0;
+			
+			public static int[] MvxImageView = new int[] {
+					2130771973};
+			
+			// aapt resource value: 0
+			public const int MvxImageView_MvxSource = 0;
+			
+			public static int[] MvxListView = new int[] {
+					2130771971,
+					2130771972};
+			
+			// aapt resource value: 1
+			public const int MvxListView_MvxDropDownItemTemplate = 1;
+			
+			// aapt resource value: 0
+			public const int MvxListView_MvxItemTemplate = 0;
+			
+			static Styleable()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Styleable()
 			{
 			}
 		}

@@ -44,9 +44,10 @@
     <Compile Include="Services\IPostCodeService.cs" />
     <Compile Include="Services\PostCodeService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\BrowseViewModel.cs" />
+    <Compile Include="ViewModels\Home\AboutViewModel.cs" />
+    <Compile Include="ViewModels\Home\BrowseViewModel.cs" />
     <Compile Include="ViewModels\PostcodeViewModel.cs" />
-    <Compile Include="ViewModels\LandingViewModel.cs" />
+    <Compile Include="ViewModels\Home\LandingViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

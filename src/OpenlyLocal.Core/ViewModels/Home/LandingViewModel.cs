@@ -2,7 +2,7 @@ using Cirrious.MvvmCross.ViewModels;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
-namespace OpenlyLocal.Core.ViewModels
+namespace OpenlyLocal.Core.ViewModels.Home
 {
     public class LandingViewModel
         : BaseViewModel

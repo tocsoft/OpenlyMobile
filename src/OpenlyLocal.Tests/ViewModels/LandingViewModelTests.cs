@@ -2,6 +2,7 @@
 using Cirrious.MvvmCross.Plugins.Messenger;
 using NUnit.Framework;
 using OpenlyLocal.Core.ViewModels;
+using OpenlyLocal.Core.ViewModels.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;
