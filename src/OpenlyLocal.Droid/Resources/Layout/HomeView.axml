@@ -1,20 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    <LegacyBar.Library.Bar.LegacyBar
+        android:id="@+id/actionbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        local:title="Openly Mobile"
+        style="@style/actionbar"
+        local:theme="holo_blue" />
+    <TextView
+        android:text="Search by postcode"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16.7dp" />
+    <EditText
+        android:id="@+id/search"
+        android:textSize="17dp"
+        local:MvxBind="Text Postcode"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0.0dp"
+        android:hint="Postcode"
+        android:autoText="false" />
+    <TextView
+        android:text="Councils"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_marginTop="6.0dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        local:MvxBind="Visibility IsLoading, Converter=Visibility"
+        android:layout_marginTop="18.6dp">
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="76.7dp" />
+        <TextView
+            android:text="Loading..."
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:layout_marginTop="16.0dp"
+            android:layout_marginLeft="12.0dp"
+            android:layout_marginRight="12.7dp" />
+    </LinearLayout>
+    <Mvx.MvxListView
+        android:layout_marginTop="10px"
+        android:textFilterEnabled="true"
+        android:choiceMode="singleChoice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        local:MvxBind="ItemsSource Councils; ItemClick ViewCouncil" />
+<!--local:MvxItemTemplate="@layout/itemtemplate1"
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-        <TabWidget
-            android:id="@android:id/tabs"
+
+        <Button
+            android:text="Browse councils"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-        <FrameLayout
-            android:id="@android:id/tabcontent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button1"
+            android:drawableLeft="@drawable/Icon" />
+        <Button
+            android:text="About"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-    </LinearLayout>
-</TabHost>
+            android:layout_height="wrap_content"
+            android:id="@+id/button1"
+            android:drawableLeft="@drawable/Icon" />
+    </LinearLayout>-->
+</LinearLayout>

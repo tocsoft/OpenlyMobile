@@ -1,53 +1,43 @@
 using Android.App;
 using Android.OS;
+using Android.Views;
+using Android.Widget;
 using Cirrious.MvvmCross.Droid.Views;
 using OpenlyLocal.Core.ViewModels;
 
 namespace OpenlyLocal.Droid.Views
 {
-    [Activity(Label = "OpenlyMobile")]
-    public class HomeView : MvxTabActivity
+    [Activity(Label = "Openly Mobile"
+        , Theme = "@style/Theme.OpenlyMobile")]
+    public class HomeView : ViewBase<HomeViewModel>
     {
-
-        protected HomeViewModel HomeViewModel
-        {
-            get { return base.ViewModel as HomeViewModel; }
-        }
+        protected override int ContentView { get { return Resource.Layout.HomeView; } }
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.HomeView);
 
-            var spec = TabHost.NewTabSpec("landing");
-            spec.SetIndicator("1");
-            spec.SetContent(this.CreateIntentFor(HomeViewModel.LandingView));
-            TabHost.AddTab(spec);
+            var searchBox = this.FindViewById<EditText>(Resource.Id.search);
 
 
-            spec = TabHost.NewTabSpec("browse");
-            spec.SetIndicator("2");
-            spec.SetContent(this.CreateIntentFor(HomeViewModel.BrowseView));
-            TabHost.AddTab(spec);
+            searchBox.KeyPress += (object sender, Android.Views.View.KeyEventArgs e) =>
+            {
+                e.Handled = false;
+                if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
+                {
+                    if (CurrentViewModel.Search.CanExecute(null))
+                    {
+                        CurrentViewModel.Search.Execute(null);
+                    }
 
-            spec = TabHost.NewTabSpec("about");
-            spec.SetIndicator("3");
-            spec.SetContent(this.CreateIntentFor(HomeViewModel.AboutView));
-            TabHost.AddTab(spec);
-
-
+                    e.Handled = true;
+                }
+            };
         }
+
+
     }
 
-    [Activity(Label = "Openly Mobile")]
-    public class LandingView : MvxActivity
-    {
-        protected override void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
-            SetContentView(Resource.Layout.LandingView);
-        }
-    }
 
     [Activity(Label = "Browse Councils")]
     public class BrowseView : MvxActivity
@@ -66,6 +56,7 @@ namespace OpenlyLocal.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.AboutView);
+
         }
     }
 }
