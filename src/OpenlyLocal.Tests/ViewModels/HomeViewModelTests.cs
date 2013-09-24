@@ -35,7 +35,7 @@ namespace OpenlyLocal.Tests.ViewModels
         [TestCase("WC2H", false)]
         public void IsValidPostcodeInFalseWithInvalidePostcode(string postcode, bool isValid)
         {
-            _view.Postcode = postcode;
+            _view.SearchTerm = postcode;
             Assert.AreEqual(isValid, _view.IsValidPostcode);
         }
 
@@ -43,7 +43,7 @@ namespace OpenlyLocal.Tests.ViewModels
         public void PreventNavigationWhenSearchingInvalidPostcode()
         {
 
-            _view.Postcode = "WC2H";
+            _view.SearchTerm = "WC2H";
             _view.Search.Execute((object)null);
 
             Assert.AreEqual(0, dispatcher.Requests.Count);
@@ -53,7 +53,7 @@ namespace OpenlyLocal.Tests.ViewModels
         public void ShowMessageFiredOnInvalidPostcodeSearch()
         {
 
-            _view.Postcode = "WC2H";
+            _view.SearchTerm = "WC2H";
             _view.Search.Execute((object)null);
 
             Assert.AreEqual(1, messenger.Messages.OfType<OpenlyLocal.Core.ViewModels.BaseViewModel.ShowAlertMessage>().Count());
@@ -63,7 +63,7 @@ namespace OpenlyLocal.Tests.ViewModels
         public void NavigatedToPostcodeViewModelWhenSearchingValidPostcode()
         {
 
-            _view.Postcode = "CH41 4LZ";
+            _view.SearchTerm = "CH41 4LZ";
             _view.Search.Execute((object)null);
 
             Assert.AreEqual(1, dispatcher.Requests.Count);

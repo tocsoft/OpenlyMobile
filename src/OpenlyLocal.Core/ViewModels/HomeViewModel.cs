@@ -3,9 +3,13 @@ using Cirrious.MvvmCross.ViewModels;
 using OpenlyLocal.Core.Services;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using OpenlyLocal.Core.Models;
+using System.Threading;
+using System;
+using OpenlyLocal.Core.Extensions;
 
 namespace OpenlyLocal.Core.ViewModels
 {
@@ -18,10 +22,16 @@ namespace OpenlyLocal.Core.ViewModels
         public HomeViewModel(IOpenlyLocalService postcodes)
         {
             _postcodes = postcodes;
-            Councils = new ObservableCollection<Models.Council>();
+            AllCouncils = new ObservableCollection<Models.Council>();
             ReloadCouncils();
+
+            new Timer(s=>{
+                
+
+
+            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
         }
-        public string Postcode { get; set; }
+        public string SearchTerm { get; set; }
 
     
         public bool IsValidPostcode
@@ -29,7 +39,7 @@ namespace OpenlyLocal.Core.ViewModels
 
             get
             {
-                return !(string.IsNullOrWhiteSpace(Postcode)) && postcodeRegex.IsMatch(Postcode);
+                return !(string.IsNullOrWhiteSpace(SearchTerm)) && postcodeRegex.IsMatch(SearchTerm);
             }
         }
 
@@ -39,8 +49,7 @@ namespace OpenlyLocal.Core.ViewModels
             _postcodes.GetCouncilList(councils =>
             {
                 IsLoading = false;
-                Councils = councils;
-                
+                AllCouncils = councils;
             },
             f =>
             {
@@ -50,9 +59,25 @@ namespace OpenlyLocal.Core.ViewModels
             });
         }
 
+
+
         public bool IsLoading { get; set; }
         public bool LoadingError { get; set; }
-        public IEnumerable<Models.Council> Councils { get; set; }
+
+        public IEnumerable<Models.Council> AllCouncils { get; set; }
+        public IEnumerable<Models.Council> Councils
+        {
+            get
+            {
+                if (AllCouncils == null)
+                    return Enumerable.Empty<Models.Council>();
+                if (string.IsNullOrWhiteSpace(SearchTerm))
+                    return AllCouncils;
+
+                
+                return AllCouncils.Where(x => x.Name.ToLower().ContainsAll(SearchTerm.ToLower().Split(' ').ToArray()));
+            }
+        }
 
         public ICommand Search
         {
@@ -62,7 +87,7 @@ namespace OpenlyLocal.Core.ViewModels
                 {
                     if (IsValidPostcode)
                     {
-                        ShowViewModel<PostcodeViewModel>(new PostcodeViewModel.PostcodeSearch { Postcode = Postcode });
+                        ShowViewModel<PostcodeViewModel>(new PostcodeViewModel.PostcodeSearch { Postcode = SearchTerm });
                     }
                     else
                     {
@@ -106,6 +131,7 @@ namespace OpenlyLocal.Core.ViewModels
                 });
             }
         }
+
 
 
     }

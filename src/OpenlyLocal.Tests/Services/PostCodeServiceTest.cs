@@ -12,12 +12,12 @@ namespace OpenlyLocal.Tests.Services
     [TestFixture]
     public class PostCodeServiceTest
     {
-        PostCodeService _service;
+        OpenlyLocalService _service;
         MockIJsonRestClient _restClient;
         [SetUp]
         public void SetUp(){
             _restClient=new MockIJsonRestClient();
-            _service = new PostCodeService(_restClient);
+            _service = new OpenlyLocalService(_restClient, null, null);
         }
         
         [Test]
