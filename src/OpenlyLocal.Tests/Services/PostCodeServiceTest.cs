@@ -12,77 +12,81 @@ namespace OpenlyLocal.Tests.Services
     [TestFixture]
     public class PostCodeServiceTest
     {
-        OpenlyLocalService _service;
-        MockIJsonRestClient _restClient;
-        [SetUp]
-        public void SetUp(){
-            _restClient=new MockIJsonRestClient();
-            _service = new OpenlyLocalService(_restClient, null, null);
-        }
+        /*     OpenlyLocalService _service;
+             MockIJsonRestClient _restClient;
+             [SetUp]
+             public void SetUp(){
+                 _restClient=new MockIJsonRestClient();
+                 _service = new OpenlyLocalService(_restClient, null, null);
+             }
         
-        [Test]
-        public void DoesServiceRequestCorrectUrl(){
+             [Test]
+             public void DoesServiceRequestCorrectUrl(){
 
-            var postcodeObject = new Core.Models.Postcode();
-            var postcode = "CH41 4LZ";
-            //setup
-            _restClient.RequestIntercepter = r =>
-            {
-                Assert.AreEqual("http://openlylocal.com/areas/postcodes/ch414lz.json", r.Uri.ToString());
-                return new Core.Models.PostcodeRootObject { postcode = postcodeObject };
-            };
+                 var postcodeObject = new Core.Models.Postcode();
+                 var postcode = "CH41 4LZ";
+                 //setup
+                 _restClient.RequestIntercepter = r =>
+                 {
+                     Assert.AreEqual("http://openlylocal.com/areas/postcodes/ch414lz.json", r.Uri.ToString());
+                     return new Core.Models.PostcodeRootObject { postcode = postcodeObject };
+                 };
 
-            _service.GetPostcode(postcode, p => {
+                 _service.GetPostcode(postcode, p => {
 
-            }, e => {
-                Assert.Fail();
-            });
+                 }, e => {
+                     Assert.Fail();
+                 });
     
-        }
+             }
 
-        [Test]
-        public void DoesServiceRequestCorrectlyReturnCachedResults()
-        {
-            var postcodeObject = new Core.Models.Postcode();
-            var postcode = "CH41 4LZ";
-            int requestCount = 0;
-            //setup
-            _restClient.RequestIntercepter = r =>
-            {
-                requestCount++;
-                return new Core.Models.PostcodeRootObject { postcode = postcodeObject };
-            };
+             [Test]
+             public void DoesServiceRequestCorrectlyReturnCachedResults()
+             {
+                 var postcodeObject = new Core.Models.Postcode();
+                 var postcode = "CH41 4LZ";
+                 int requestCount = 0;
+                 //setup
+                 _restClient.RequestIntercepter = r =>
+                 {
+                     requestCount++;
+                     return new Core.Models.PostcodeRootObject { postcode = postcodeObject };
+                 };
 
-            _service.GetPostcode(postcode, p =>
-            {
-            }, e =>
-            {
-                Assert.Fail();
-            });
+                 _service.GetPostcode(postcode, p =>
+                 {
+                 }, e =>
+                 {
+                     Assert.Fail();
+                 });
 
-            //ensure request only called once
-            Assert.AreEqual(1, requestCount);
-        }
+                 //ensure request only called once
+                 Assert.AreEqual(1, requestCount);
+             }
 
-        [Test]
-        public void DoesErrorGetCalled()
-        {
-            var postcodeObject = new Core.Models.Postcode();
-            var postcode = "CH41 4LZ";
-            //setup
-            _restClient.RequestIntercepter = r =>
-            {
-                throw new Exception();
-            };
+             [Test]
+             public void DoesErrorGetCalled()
+             {
+                 var postcodeObject = new Core.Models.Postcode();
+                 var postcode = "CH41 4LZ";
+                 //setup
+                 _restClient.RequestIntercepter = r =>
+                 {
+                     throw new Exception();
+                 };
 
-            _service.GetPostcode(postcode, p =>
-            {
-                Assert.Fail();
-            }, e =>
-            {
+                 _service.GetPostcode(postcode, p =>
+                 {
+                     Assert.Fail();
+                 }, e =>
+                 {
 
-            });
+                 });
 
-        }
+             }
+         */
     }
-}
+
+
+
+    }

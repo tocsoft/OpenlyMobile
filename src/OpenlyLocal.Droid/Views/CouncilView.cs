@@ -7,6 +7,8 @@ using Cirrious.MvvmCross.Droid.Views;
 using Cirrious.MvvmCross.Binding.ExtensionMethods;
 using OpenlyLocal.Core.ViewModels;
 using Cirrious.MvvmCross.Binding.BindingContext;
+using OpenlyLocal.Core.Models;
+using Android.Content;
 
 namespace OpenlyLocal.Droid.Views
 {
@@ -18,6 +20,7 @@ namespace OpenlyLocal.Droid.Views
         
         protected override void OnCreate(Bundle bundle)
         {
+            MinZoom = 10;
             base.OnCreate(bundle);
 
             var set = this.CreateBindingSet<CouncilView, CouncilViewModel>();
@@ -37,7 +40,7 @@ namespace OpenlyLocal.Droid.Views
                     }
                     else if (e.PropertyName == "Council")
                     {
-                        Overlay = CurrentViewModel.Council.GeoJson;
+                        Locations = new ILocation[] { CurrentViewModel.Council };
                         //CenterLocation = CurrentViewModel.Council;
                     }
                 };
@@ -45,5 +48,17 @@ namespace OpenlyLocal.Droid.Views
 
 
 
+    }
+
+    public class SvgView : View
+    {
+        public SvgView(Context context) : base(context) { }
+        protected override void OnDraw(Android.Graphics.Canvas canvas)
+        {
+            
+            base.OnDraw(canvas);
+
+            canvas.GL.
+        }
     }
 }

@@ -60,8 +60,8 @@ namespace OpenlyLocal.Droid.Views
             }
         }
 
-        GeoJson _overlay;
-        public GeoJson Overlay
+        GeoPolygon _overlay;
+        public GeoPolygon Overlay
         {
             get
             {
@@ -71,6 +71,21 @@ namespace OpenlyLocal.Droid.Views
             {
                 _overlay = value;
                 UpdateOverlay();
+            }
+        }
+        int? _minZoom;
+        public int? MinZoom
+        {
+            get
+            {
+                return _minZoom;
+            }
+            set
+            {
+                _minZoom = value;
+                UpdateOverlay();
+                UpdateCenterLocation();
+                UpdateLocationMarkers();
             }
         }
 
@@ -95,14 +110,13 @@ namespace OpenlyLocal.Droid.Views
                 if (_overlay != null)
                 {
                     var bld = new LatLngBounds.Builder();
-                    foreach (var polygon in _overlay.Polygons)
+                    foreach (var polygon in _overlay)
                     {
-
                         PolygonOptions poly = new PolygonOptions();
-                        foreach (var point in polygon)
+                        var points = polygon.Select(point=>new LatLng(point[0], point[1])).ToArray();
+                        poly.Add(points);
+                        foreach (var lnglat in points)
                         {
-                            var lnglat = new LatLng(point.Lat, point.Lng);
-                            poly.Add(lnglat);
                             bld.Include(lnglat);
                         }
                         poly.InvokeStrokeWidth(0.1f);
@@ -120,6 +134,8 @@ namespace OpenlyLocal.Droid.Views
                         {
                             _map.MoveCamera(CameraUpdateFactory.NewLatLngBounds(bld.Build(),400, 400, 100));
                         }
+                        if (_minZoom.HasValue)
+                            _map.MoveCamera(CameraUpdateFactory.ZoomTo(_minZoom.Value));
                     }
                 }
             }
@@ -139,7 +155,7 @@ namespace OpenlyLocal.Droid.Views
                         var latlng = new LatLng(loc.Lat, loc.Lng);
                         bld.Include(latlng);
                         marker1.SetPosition(latlng);
-
+                        
                         if (loc is INamedLocation)
                         {
                             marker1.SetTitle(((INamedLocation)loc).Name);
@@ -149,7 +165,16 @@ namespace OpenlyLocal.Droid.Views
                     }
                     if (_centerLocation == null)
                     {
-                        _map.MoveCamera(CameraUpdateFactory.NewLatLngBounds(bld.Build(), 10));
+                        try
+                        {
+                            _map.MoveCamera(CameraUpdateFactory.NewLatLngBounds(bld.Build(), 100));
+                        }
+                        catch
+                        {
+                            _map.MoveCamera(CameraUpdateFactory.NewLatLngBounds(bld.Build(), 400, 400, 100));
+                        }
+                        if (_minZoom.HasValue)
+                            _map.MoveCamera(CameraUpdateFactory.ZoomTo(_minZoom.Value));
                     }
                 }
 
@@ -176,6 +201,8 @@ namespace OpenlyLocal.Droid.Views
                     CameraUpdate cameraUpdate = CameraUpdateFactory.NewLatLngZoom(new Android.Gms.Maps.Model.LatLng(_centerLocation.Lat, _centerLocation.Lng), 15);
                     _map.MoveCamera(cameraUpdate);
                 }
+                if (_minZoom.HasValue)
+                    _map.MoveCamera(CameraUpdateFactory.ZoomTo(_minZoom.Value));
             }
         }
         private void SetupMapIfNeeded()

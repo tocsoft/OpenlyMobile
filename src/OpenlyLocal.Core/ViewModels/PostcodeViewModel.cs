@@ -10,8 +10,9 @@ namespace OpenlyLocal.Core.ViewModels
 {
     public class PostcodeViewModel : BaseViewModel
     {
+        /*
         private IOpenlyLocalService _postcodes;
-        public Models.Postcode PostcodeData { get; set; }
+      //  public Models.Postcode PostcodeData { get; set; }
         public PostcodeViewModel(IOpenlyLocalService postcodes)
         {
             IsLoading = true;
@@ -35,6 +36,7 @@ namespace OpenlyLocal.Core.ViewModels
                     Close(this);
                 }
             );
+        
         }
 
         public string ImageUrl {
@@ -108,5 +110,7 @@ namespace OpenlyLocal.Core.ViewModels
                 });
             }
         }
+        
+         */
     }
 }

@@ -7,31 +7,31 @@ using OpenlyLocal.Core.ViewModels;
 
 namespace OpenlyLocal.Droid.Views
 {
-    [Activity(Label = "Openly Mobile - Ward"
+    
+
+    [Activity(Label = "Openly Mobile - Council"
         , Theme = "@style/Theme.OpenlyMobile")]
-    public class WardView : MvxActivity
+    public class WardView : MapViewBase<WardViewModel>
     {
-
-        protected WardViewModel WardViewModel
-        {
-            get { return base.ViewModel as WardViewModel; }
-        }
-
-        public LegacyBar.Library.Bar.LegacyBar LegacyBar { get; set; }
+        protected override int ContentView { get { return Resource.Layout.Page_WardView; } }
+        
 
         protected override void OnCreate(Bundle bundle)
         {
+            
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.Page_WardView);
 
-            LegacyBar = this.FindViewById<global::LegacyBar.Library.Bar.LegacyBar>(Resource.Id.actionbar);
-
-            WardViewModel.PropertyChanged += (s, e) =>
+            CurrentViewModel.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == "WardName")
                 {
-                    if (WardViewModel.WardName != null)
-                        LegacyBar.Title = WardViewModel.WardName;
+                    if (CurrentViewModel.WardName != null)
+                        LegacyBar.Title = CurrentViewModel.WardName;
+                }else 
+                if (e.PropertyName == "Ward")
+                {
+                    if (CurrentViewModel.Ward != null)
+                        Overlay = CurrentViewModel.Ward.BoundaryLine;
                 }
             };
             

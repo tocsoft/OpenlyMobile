@@ -13,7 +13,7 @@ namespace OpenlyLocal.Core.Extensions
         }
         public static bool ContainsAll(this string str, params string[] parts)
         {
-            return parts.Where(x=>!string.IsNullOrWhiteSpace(x)).All(x => str.Contains(x));
+            return parts.Where(x=>!string.IsNullOrEmpty(x)).All(x => str.Contains(x));
         }
     }
 }

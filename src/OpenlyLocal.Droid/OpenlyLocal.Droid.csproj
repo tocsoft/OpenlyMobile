@@ -91,11 +91,11 @@
     <Reference Include="Cirrious.MvvmCross.Plugins.Visibility.Droid">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Visibility.3.0.12\lib\MonoAndroid16\Cirrious.MvvmCross.Plugins.Visibility.Droid.dll</HintPath>
     </Reference>
-    <Reference Include="GooglePlayServicesFroyoLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="GooglePlayServicesFroyoLib">
       <HintPath>..\Components\googleplayservicesfroyo10-10.0\lib\android\GooglePlayServicesFroyoLib.dll</HintPath>
     </Reference>
-    <Reference Include="LegacyBar.Library">
+    <Reference Include="LegacyBar.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Components\legacybar-2.0\lib\android\LegacyBar.Library.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android" />
@@ -138,6 +138,7 @@
     <Compile Include="Views\HomeView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

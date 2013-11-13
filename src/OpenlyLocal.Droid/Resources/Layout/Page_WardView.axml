@@ -12,46 +12,59 @@
         style="@style/actionbar"
         local:theme="holo_blue" />
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        local:MvxBind="Visibility IsLoading, Converter=Visibility"
-        android:layout_marginTop="110.0dp">
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="76.7dp" />
-        <TextView
-            android:text="Loading..."
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView1"
-            android:layout_marginTop="16.0dp"
-            android:layout_marginLeft="12.0dp"
-            android:layout_marginRight="12.7dp" />
-    </LinearLayout>
-    <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        local:MvxBind="Visibility IsLoading, Converter=InvertedVisibility">
-        <fragment
-            android:id="@+id/map"
-            android:layout_width="fill_parent"
-            android:layout_height="165dp"
-            class="com.google.android.gms.maps.SupportMapFragment" />
-        <TextView
-            android:text="Ward"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView1"
-            android:layout_marginTop="16.0dp"
-            android:layout_marginLeft="12.0dp"
-            android:layout_marginRight="12.7dp" />
+            local:MvxBind="Visibility IsLoading, Converter=Visibility"
+            android:layout_marginTop="110.0dp">
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="76.7dp" />
+            <TextView
+                android:text="Loading..."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:layout_marginTop="16.0dp"
+                android:layout_marginLeft="12.0dp"
+                android:layout_marginRight="12.7dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            local:MvxBind="Visibility IsLoading, Converter=InvertedVisibility">
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="fill_parent"
+                android:layout_height="165dp"
+                tiltGesturesEnabled="false"
+                rotateGesturesEnabled="false"
+                class="com.google.android.gms.maps.SupportMapFragment" />
+            <TextView
+                android:text="Ward"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+        <!-- <Mvx.MvxListView
+          android:layout_marginTop="10px"
+          android:textFilterEnabled="true"
+          android:choiceMode="singleChoice"
+          android:layout_width="fill_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:isScrollContainer="false"
+          android:textSize="20dp"
+          local:MvxBind="ItemsSource Wards; ItemClick ViewWard" />-->
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -29,8 +29,8 @@ namespace OpenlyLocal.Droid.Views
             {
                 if (e.PropertyName == "Postcode")
                 {
-                    if (PostcodeViewModel.Postcode != null)
-                        LegacyBar.Title = PostcodeViewModel.Postcode;
+                  //  if (PostcodeViewModel.Postcode != null)
+                  //      LegacyBar.Title = PostcodeViewModel.Postcode;
                 }
             };
 

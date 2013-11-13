@@ -12,7 +12,7 @@ namespace OpenlyLocal.Core.Services
     {
         private Cirrious.MvvmCross.Plugins.Network.Rest.IMvxJsonRestClient _client;
         private Cirrious.MvvmCross.Plugins.Network.Rest.IMvxRestClient _restClient;
-        private Dictionary<string, Models.Postcode> _postcodeCache = new Dictionary<string, Models.Postcode>();
+       // private Dictionary<string, Models.Postcode> _postcodeCache = new Dictionary<string, Models.Postcode>();
         private Dictionary<string, Models.Ward> _wardCache = new Dictionary<string, Models.Ward>();
         private Dictionary<string, Models.Council> _councilCache = new Dictionary<string, Models.Council>();
 
@@ -54,45 +54,45 @@ namespace OpenlyLocal.Core.Services
                       failure);
         }
 
-        public void GetPostcode(string postcode, Action<Models.Postcode> success, Action<Exception> fail)
-        {
+        //public void GetPostcode(string postcode, Action<Models.Postcode> success, Action<Exception> fail)
+        //{
 
-            //normalize postcode
-            postcode = postcode.Replace(" ", "").ToLower();
+        //    //normalize postcode
+        //    postcode = postcode.Replace(" ", "").ToLower();
 
-            var url = "http://openlylocal.com/areas/postcodes/" + Uri.EscapeDataString(postcode) + ".json";
+        //    var url = "http://openlylocal.com/areas/postcodes/" + Uri.EscapeDataString(postcode) + ".json";
 
-            _trace.Trace(MvxTraceLevel.Diagnostic, "data", "loading {0} as {1}", postcode, url);
+        //    _trace.Trace(MvxTraceLevel.Diagnostic, "data", "loading {0} as {1}", postcode, url);
 
-            if (_postcodeCache.ContainsKey(postcode))
-            {
-                success(_postcodeCache[postcode]);
-            }
-            else
-            {
-                GetUrl<PostcodeRootObject, Postcode>(url, r => r.postcode, p =>
-                {
-                    lock (_lockObject)
-                    {
-                        if (!_postcodeCache.ContainsKey(postcode))
-                        {
-                            _postcodeCache.Add(postcode, p);
-                        }
-                    }
+        //    if (_postcodeCache.ContainsKey(postcode))
+        //    {
+        //        success(_postcodeCache[postcode]);
+        //    }
+        //    else
+        //    {
+        //        GetUrl<PostcodeRootObject, Postcode>(url, r => r.postcode, p =>
+        //        {
+        //            lock (_lockObject)
+        //            {
+        //                if (!_postcodeCache.ContainsKey(postcode))
+        //                {
+        //                    _postcodeCache.Add(postcode, p);
+        //                }
+        //            }
 
-                    //re cache otehr content
-                    success(_postcodeCache[postcode]);
+        //            //re cache otehr content
+        //            success(_postcodeCache[postcode]);
 
-                }, fail);
-            }
-        }
+        //        }, fail);
+        //    }
+        //}
 
         public void GetWard(int wardid, Action<Models.Ward> success, Action<Exception> fail)
         {
 
             //normalize postcode
             var wardKey = wardid.ToString();
-            var url = "http://openlylocal.com/wards/" + wardKey + ".json";
+            var url = "http://scoile.apphb.com/api/tocsoft/OpenlyLocal/Lb4WLZ26oEGXz0oNGgxiXQ?type=ward&id=" + wardKey ;
 
             _trace.Trace(MvxTraceLevel.Diagnostic, "data", "loading ward {0} as {1}", wardKey, url);
 
@@ -102,28 +102,18 @@ namespace OpenlyLocal.Core.Services
             }
             else
             {
-                GetUrl<WardRootObject, Ward>(url, r => r.ward, w =>
+                GetUrl<Ward[]>(url, w =>
                 {
 
                     lock (_lockObject)
                     {
                         if (!_wardCache.ContainsKey(wardKey))
                         {
-                            _wardCache.Add(wardKey, w);
+                            _wardCache.Add(wardKey, w.First());
                         }
-                        else
-                            success(_wardCache[wardKey]);
                     }
 
-
-                    GetUrl<GeoJson>("http://mapit.mysociety.org/area/" + w.snac_id + ".geojson", g =>
-                    {
-                        //set the GeoGason for this council
-                        w.GeoJson = g;
-
-                        success(_wardCache[wardKey]);
-                    }, fail);
-
+                    success(_wardCache[wardKey]);
 
                 }, fail);
             }
@@ -134,7 +124,7 @@ namespace OpenlyLocal.Core.Services
 
             //normalize postcode
             var councilKey = councilId.ToString();
-            var url = "http://openlylocal.com/councils/" + councilKey + ".json";
+            var url = "http://scoile.apphb.com/api/tocsoft/OpenlyLocal/Lb4WLZ26oEGXz0oNGgxiXQ?type=council&id=" + councilKey;
 
             _trace.Trace(MvxTraceLevel.Diagnostic, "data", "loading council {0} as {1}", councilKey, url);
 
@@ -144,73 +134,29 @@ namespace OpenlyLocal.Core.Services
             }
             else
             {
-                GetUrl<CouncilRootObject, Council>(url, r => r.council, c =>
+                GetUrl<Council[]>(url,  c =>
                 {
-
                     lock (_lockObject)
                     {
                         if (!_councilCache.ContainsKey(councilKey))
                         {
-                            _councilCache.Add(councilKey, c);
-                        }
-                        else
-                        {
-                            //all downloaded in the past
-                            success(_councilCache[councilKey]);
+                            _councilCache.Add(councilKey, c.First());
                         }
                     }
 
-                    //TODO download polygon data from http://mapit.mysociety.org/area/{c.snac_id}.html
-                    var geourl = "http://mapit.mysociety.org/area/" + c.snac_id + ".geojson";
-                    _trace.Trace(MvxTraceLevel.Diagnostic, "data", "loading {0}", geourl);
-                    GetTextUrl(geourl, geoJson =>
-                    {
-
-                        var converter = _client.JsonConverterProvider();
-                        GeoJson geo = null;
-                        try
-                        {
-                            geo = converter.DeserializeObject<Polygon>(geoJson);
-                        }
-                        catch(Exception ex)
-                        {
-
-                        }
-
-                        if (geo == null) {
-                            try
-                            {
-                                geo = converter.DeserializeObject<MultiPolygon>(geoJson);
-                            }
-                            catch (Exception e)
-                            {
-                                fail(e);
-                                return;
-                            }
-                        }
-                        _trace.Trace(MvxTraceLevel.Diagnostic, "data", "loaded geodata from {0}", geourl);
-                        //_trace.Trace(MvxTraceLevel.Diagnostic, "data", g);
-                        //set the GeoGason for this council
-                        c.GeoJson = geo;
-
-                        success(_councilCache[councilKey]);
-                    }, e => { 
-                        _trace.Trace(MvxTraceLevel.Diagnostic, "data", "failed geodata from {0}", geourl);
-                        success(_councilCache[councilKey]);
-                    });
-
-
+                    success(_councilCache[councilKey]);
+                  
                 }, fail);
             }
         }
 
-        private IEnumerable<Models.Council> _councilListCache;
-        public void GetCouncilList( Action<IEnumerable<Models.Council>> success, Action<Exception> fail)
+        private IEnumerable<Models.CouncilSimple> _councilListCache;
+        public void GetCouncilList(Action<IEnumerable<Models.CouncilSimple>> success, Action<Exception> fail)
         {
 
             //normalize postcode
-            
-            var url = "http://openlylocal.com/councils.json";
+
+            var url = "http://scoile.apphb.com/api/tocsoft/OpenlyLocal/Lb4WLZ26oEGXz0oNGgxiXQ";
 
             _trace.Trace(MvxTraceLevel.Diagnostic, "data", "loading list of councils as {0}", url);
 
@@ -220,7 +166,7 @@ namespace OpenlyLocal.Core.Services
             }
             else
             {
-                GetUrl<CouncilsRootObject, Council[]>(url, r => r.councils, c =>
+                GetUrl<CouncilSimple[]>(url, c =>
                 {
 
                     lock (_lockObject)

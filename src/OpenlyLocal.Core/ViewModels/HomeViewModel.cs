@@ -22,7 +22,7 @@ namespace OpenlyLocal.Core.ViewModels
         public HomeViewModel(IOpenlyLocalService postcodes)
         {
             _postcodes = postcodes;
-            AllCouncils = new ObservableCollection<Models.Council>();
+            AllCouncils = new ObservableCollection<Models.CouncilSimple>();
             ReloadCouncils();
 
             new Timer(s=>{
@@ -39,7 +39,7 @@ namespace OpenlyLocal.Core.ViewModels
 
             get
             {
-                return !(string.IsNullOrWhiteSpace(SearchTerm)) && postcodeRegex.IsMatch(SearchTerm);
+                return !(string.IsNullOrEmpty(SearchTerm)) && postcodeRegex.IsMatch(SearchTerm);
             }
         }
 
@@ -64,14 +64,14 @@ namespace OpenlyLocal.Core.ViewModels
         public bool IsLoading { get; set; }
         public bool LoadingError { get; set; }
 
-        public IEnumerable<Models.Council> AllCouncils { get; set; }
-        public IEnumerable<Models.Council> Councils
+        public IEnumerable<Models.CouncilSimple> AllCouncils { get; set; }
+        public IEnumerable<Models.CouncilSimple> Councils
         {
             get
             {
                 if (AllCouncils == null)
-                    return Enumerable.Empty<Models.Council>();
-                if (string.IsNullOrWhiteSpace(SearchTerm))
+                    return Enumerable.Empty<Models.CouncilSimple>();
+                if (string.IsNullOrEmpty(SearchTerm))
                     return AllCouncils;
 
                 
@@ -85,14 +85,14 @@ namespace OpenlyLocal.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    if (IsValidPostcode)
-                    {
-                        ShowViewModel<PostcodeViewModel>(new PostcodeViewModel.PostcodeSearch { Postcode = SearchTerm });
-                    }
-                    else
-                    {
-                        ShowAlert("Invalid Postcode");
-                    }
+                    //if (IsValidPostcode)
+                    //{
+                    //    ShowViewModel<PostcodeViewModel>(new PostcodeViewModel.PostcodeSearch { Postcode = SearchTerm });
+                    //}
+                    //else
+                    //{
+                    //    ShowAlert("Invalid Postcode");
+                    //}
                 });
             }
         }
@@ -100,11 +100,11 @@ namespace OpenlyLocal.Core.ViewModels
         {
             get
             {
-                return new MvxCommand<Council>(c =>
+                return new MvxCommand<CouncilSimple>(c =>
                 {
                     if (c != null)
                     {
-                        ShowViewModel<CouncilViewModel>(new CouncilViewModel.Search { Id = c.id });
+                        ShowViewModel<CouncilViewModel>(new CouncilViewModel.Search { Id = c.Id });
                     }
                 });
             }

@@ -52,13 +52,13 @@ namespace OpenlyLocal.Core.ViewModels
             set;
         }
 
-        public IEnumerable<Ward> Wards
+        public IEnumerable<WardSimple> Wards
         {
             get {
                 if (Council == null)
-                    return Enumerable.Empty<Ward>();
+                    return Enumerable.Empty<WardSimple>();
 
-                return Council.wards;
+                return Council.Wards;
             }
         }
 
@@ -72,11 +72,11 @@ namespace OpenlyLocal.Core.ViewModels
         {
             get
             {
-                return new MvxCommand<Ward>(c =>
+                return new MvxCommand<WardSimple>(c =>
                 {
                     if (c != null)
                     {
-                        ShowViewModel<WardViewModel>(new WardViewModel.WardSearch { Id = c.id });
+                        ShowViewModel<WardViewModel>(new WardViewModel.WardSearch { Id = c.Id });
                     }
                 });
             }
